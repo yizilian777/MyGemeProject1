@@ -1,0 +1,185 @@
+[gd_scene load_steps=10 format=3 uid="uid://ewara0nmoqix"]
+
+[ext_resource type="Script" uid="uid://diloo4lcoxtge" path="res://scripts/gamemanager.gd" id="1_lbhrr"]
+[ext_resource type="Texture2D" uid="uid://u8ovop4ced2v" path="res://AssetBundle/Sprites/ForestBackground.png" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://bjyyj7c3vi0jc" path="res://scenes/player.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bixfgiso3njcu" path="res://slime.tscn" id="3_lnu2h"]
+[ext_resource type="FontFile" uid="uid://bpjdetljhxmxf" path="res://AssetBundle/Uranus_Pixel_11Px.ttf" id="5_iywne"]
+
+[sub_resource type="Animation" id="Animation_p57ef"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_iywne"]
+resource_name = "show_level_up"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.0333333, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0666667, 1.4),
+"transitions": PackedFloat32Array(0.517633, 0.329877),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 1.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u5sy4"]
+_data = {
+&"RESET": SubResource("Animation_p57ef"),
+&"show_level_up": SubResource("Animation_iywne")
+}
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_yqjtg"]
+normal = Vector2(0.0016529, -0.999999)
+distance = -5.9821
+
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("spawn_timer", "score_label", "game_over_label", "player", "level_up_label")]
+y_sort_enabled = true
+script = ExtResource("1_lbhrr")
+slime_scene = ExtResource("3_lnu2h")
+spawn_timer = NodePath("Timer")
+score_label = NodePath("CanvasLayer/Label")
+game_over_label = NodePath("CanvasLayer/game over label")
+player = NodePath("player")
+level_up_label = NodePath("level up")
+
+[node name="background1" type="Sprite2D" parent="."]
+position = Vector2(120, 0)
+texture = ExtResource("1_uwrxv")
+metadata/_edit_lock_ = true
+
+[node name="background2" type="Sprite2D" parent="."]
+position = Vector2(-120, 0)
+texture = ExtResource("1_uwrxv")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2.405, 2.405)
+metadata/_edit_lock_ = true
+
+[node name="player" parent="." instance=ExtResource("2_yqjtg")]
+position = Vector2(-180, 76)
+
+[node name="level up" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -236.0
+offset_top = 52.0
+offset_right = -136.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 10)
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("5_iywne")
+theme_override_font_sizes/font_size = 6
+text = "Level Up!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelUpAnim" type="AnimationPlayer" parent="level up"]
+libraries = {
+&"": SubResource("AnimationLibrary_u5sy4")
+}
+
+[node name="boundary" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundary/StaticBody2D"]
+position = Vector2(0, 130)
+shape = SubResource("WorldBoundaryShape2D_yqjtg")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundary/StaticBody2D2"]
+position = Vector2(235, 1)
+rotation = -1.56335
+shape = SubResource("WorldBoundaryShape2D_yqjtg")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundary/StaticBody2D3"]
+position = Vector2(-235, 0)
+rotation = 1.56585
+shape = SubResource("WorldBoundaryShape2D_yqjtg")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="boundary"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="boundary/StaticBody2D4"]
+position = Vector2(-2.38419e-07, 37)
+rotation = -3.13441
+shape = SubResource("WorldBoundaryShape2D_yqjtg")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 16.0
+offset_top = 11.0
+offset_right = 170.0
+offset_bottom = 60.0
+theme_override_fonts/font = ExtResource("5_iywne")
+theme_override_font_sizes/font_size = 24
+text = "Score: 0"
+
+[node name="game over label" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 294.0
+offset_top = 255.0
+offset_right = 928.0
+offset_bottom = 375.0
+theme_override_constants/outline_size = 60
+theme_override_fonts/font = ExtResource("5_iywne")
+theme_override_font_sizes/font_size = 120
+text = "GAME OVER!"
+
+[connection signal="timeout" from="Timer" to="." method="_spawn_slime"]
