@@ -128,14 +128,15 @@ radius = 2.47838
 
 [node name="slime" type="Area2D"]
 script = ExtResource("1_5jc4t")
-slime_speed = -50.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -9)
 scale = Vector2(0.978082, 0.96972)
 sprite_frames = SubResource("SpriteFrames_jrxk1")
-animation = &"idle"
+animation = &"death"
 autoplay = "idle"
+frame = 5
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)

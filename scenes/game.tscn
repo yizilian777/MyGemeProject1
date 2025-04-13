@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://ewara0nmoqix"]
+[gd_scene load_steps=11 format=3 uid="uid://ewara0nmoqix"]
 
 [ext_resource type="Script" uid="uid://diloo4lcoxtge" path="res://scripts/gamemanager.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://u8ovop4ced2v" path="res://AssetBundle/Sprites/ForestBackground.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://bjyyj7c3vi0jc" path="res://scenes/player.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://bixfgiso3njcu" path="res://slime.tscn" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://di7j4m5jy6f2j" path="res://scenes/dino.tscn" id="3_p57ef"]
 [ext_resource type="FontFile" uid="uid://bpjdetljhxmxf" path="res://AssetBundle/Uranus_Pixel_11Px.ttf" id="5_iywne"]
 
 [sub_resource type="Animation" id="Animation_p57ef"]
@@ -71,11 +72,13 @@ _data = {
 normal = Vector2(0.0016529, -0.999999)
 distance = -5.9821
 
-[node name="Node2D" type="Node2D" node_paths=PackedStringArray("spawn_timer", "score_label", "game_over_label", "player", "level_up_label")]
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("spawn_timer", "dino_timer", "score_label", "game_over_label", "player", "level_up_label")]
 y_sort_enabled = true
 script = ExtResource("1_lbhrr")
 slime_scene = ExtResource("3_lnu2h")
 spawn_timer = NodePath("Timer")
+dino_scene = ExtResource("3_p57ef")
+dino_timer = NodePath("Timer2")
 score_label = NodePath("CanvasLayer/Label")
 game_over_label = NodePath("CanvasLayer/game over label")
 player = NodePath("player")
@@ -114,9 +117,9 @@ grow_vertical = 2
 pivot_offset = Vector2(50, 10)
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_constants/outline_size = 6
+theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("5_iywne")
-theme_override_font_sizes/font_size = 6
+theme_override_font_sizes/font_size = 12
 text = "Level Up!"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -160,6 +163,9 @@ shape = SubResource("WorldBoundaryShape2D_yqjtg")
 wait_time = 2.0
 autostart = true
 
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 2.0
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
@@ -183,3 +189,4 @@ theme_override_font_sizes/font_size = 120
 text = "GAME OVER!"
 
 [connection signal="timeout" from="Timer" to="." method="_spawn_slime"]
+[connection signal="timeout" from="Timer2" to="." method="_spawn_dino"]

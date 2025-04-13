@@ -1,0 +1,141 @@
+[gd_scene load_steps=21 format=3 uid="uid://di7j4m5jy6f2j"]
+
+[ext_resource type="Script" uid="uid://bxh0ar4838jqk" path="res://scripts/dino.gd" id="1_4s6ie"]
+[ext_resource type="Texture2D" uid="uid://yf3nx8ie4v84" path="res://Assets/Characters/Enemies and NPC/Dino/Spritesheets/dino.png" id="1_j5dwh"]
+[ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_ybb2o"]
+[ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_qwydg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrxk1"]
+atlas = ExtResource("2_ybb2o")
+region = Rect2(0, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alucd"]
+atlas = ExtResource("2_ybb2o")
+region = Rect2(64, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8w6w5"]
+atlas = ExtResource("2_ybb2o")
+region = Rect2(128, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrvan"]
+atlas = ExtResource("2_ybb2o")
+region = Rect2(192, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gjuw"]
+atlas = ExtResource("2_ybb2o")
+region = Rect2(256, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ggc5"]
+atlas = ExtResource("2_ybb2o")
+region = Rect2(320, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b48k4"]
+atlas = ExtResource("2_ybb2o")
+region = Rect2(384, 0, 64, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4s6ie"]
+atlas = ExtResource("1_j5dwh")
+region = Rect2(0, 0, 32, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybb2o"]
+atlas = ExtResource("1_j5dwh")
+region = Rect2(32, 0, 32, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwydg"]
+atlas = ExtResource("1_j5dwh")
+region = Rect2(64, 0, 32, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mjhv"]
+atlas = ExtResource("1_j5dwh")
+region = Rect2(96, 0, 32, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_focm0"]
+atlas = ExtResource("1_j5dwh")
+region = Rect2(128, 0, 32, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdm24"]
+atlas = ExtResource("1_j5dwh")
+region = Rect2(160, 0, 32, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8i2d"]
+atlas = ExtResource("1_j5dwh")
+region = Rect2(192, 0, 32, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qwosw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrxk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrxk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alucd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8w6w5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrvan")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0gjuw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ggc5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b48k4")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4s6ie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ybb2o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwydg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mjhv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_focm0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mdm24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8i2d")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x81ab"]
+radius = 9.0
+
+[node name="Dino" type="Area2D"]
+script = ExtResource("1_4s6ie")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qwosw")
+animation = &"death"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 4)
+shape = SubResource("CircleShape2D_x81ab")
+
+[node name="deathsound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_qwydg")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

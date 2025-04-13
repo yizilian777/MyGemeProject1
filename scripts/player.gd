@@ -79,7 +79,7 @@ func level_up():
 	kills_to_level_up += 5
 
 	
-	label.position = position + Vector2(-48, -20)
+	label.position = position + Vector2(-50, -28)
 	label.visible = true
 	label.get_node("LevelUpAnim").play("show_level_up")
 	
