@@ -1,9 +1,9 @@
 [gd_scene load_steps=18 format=3 uid="uid://c747jc5p7ikn4"]
 
 [ext_resource type="Script" uid="uid://bxssyicah7eoa" path="res://scripts/dog.gd" id="1_gmowd"]
-[ext_resource type="Texture2D" uid="uid://ccmsrxocv62f8" path="res://Assets/Characters/Enemies and NPC/Dog/Spritesheets/dog.png" id="1_nhxoo"]
-[ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="1_qjqk5"]
-[ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="2_5ieuq"]
+[ext_resource type="Texture2D" uid="uid://dmexgga03gxyl" path="res://Assets/Characters/Enemies and NPC/Dog/Spritesheets/dog.png" id="1_nhxoo"]
+[ext_resource type="Texture2D" uid="uid://d0noxjd88t8am" path="res://AssetBundle/Sprites/SlimerDeath.png" id="1_qjqk5"]
+[ext_resource type="AudioStream" uid="uid://bpce0pw3fapq1" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="2_5ieuq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrxk1"]
 atlas = ExtResource("1_qjqk5")

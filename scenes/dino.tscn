@@ -1,9 +1,9 @@
 [gd_scene load_steps=21 format=3 uid="uid://di7j4m5jy6f2j"]
 
 [ext_resource type="Script" uid="uid://bxh0ar4838jqk" path="res://scripts/dino.gd" id="1_4s6ie"]
-[ext_resource type="Texture2D" uid="uid://yf3nx8ie4v84" path="res://Assets/Characters/Enemies and NPC/Dino/Spritesheets/dino.png" id="1_j5dwh"]
-[ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_ybb2o"]
-[ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_qwydg"]
+[ext_resource type="Texture2D" uid="uid://b3snd5pems2tr" path="res://Assets/Characters/Enemies and NPC/Dino/Spritesheets/dino.png" id="1_j5dwh"]
+[ext_resource type="Texture2D" uid="uid://d0noxjd88t8am" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_ybb2o"]
+[ext_resource type="AudioStream" uid="uid://bpce0pw3fapq1" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_qwydg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrxk1"]
 atlas = ExtResource("2_ybb2o")

@@ -1,9 +1,9 @@
 [gd_scene load_steps=22 format=3 uid="uid://bixfgiso3njcu"]
 
-[ext_resource type="Texture2D" uid="uid://b4kx4xgm2g3er" path="res://AssetBundle/Sprites/Slimer.png" id="1_2d52u"]
+[ext_resource type="Texture2D" uid="uid://rrcsc4s3hu1c" path="res://AssetBundle/Sprites/Slimer.png" id="1_2d52u"]
 [ext_resource type="Script" uid="uid://cmnv3l0jvo05v" path="res://scripts/slime.gd" id="1_5jc4t"]
-[ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_4l1t8"]
-[ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_ppcr1"]
+[ext_resource type="Texture2D" uid="uid://d0noxjd88t8am" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_4l1t8"]
+[ext_resource type="AudioStream" uid="uid://bpce0pw3fapq1" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_ppcr1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrxk1"]
 atlas = ExtResource("2_4l1t8")
@@ -33,6 +33,10 @@ region = Rect2(320, 0, 64, 58)
 atlas = ExtResource("2_4l1t8")
 region = Rect2(384, 0, 64, 58)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_5b0gg"]
+atlas = ExtResource("1_2d52u")
+region = Rect2(246, 0, 41, 38)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_5jc4t"]
 atlas = ExtResource("1_2d52u")
 region = Rect2(0, 0, 41, 38)
@@ -56,10 +60,6 @@ region = Rect2(164, 0, 41, 38)
 [sub_resource type="AtlasTexture" id="AtlasTexture_bratd"]
 atlas = ExtResource("1_2d52u")
 region = Rect2(205, 0, 41, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5b0gg"]
-atlas = ExtResource("1_2d52u")
-region = Rect2(246, 0, 41, 38)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_da4t2"]
 atlas = ExtResource("1_2d52u")
@@ -92,6 +92,14 @@ animations = [{
 "loop": false,
 "name": &"death",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5b0gg")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -128,13 +136,12 @@ radius = 2.47838
 
 [node name="slime" type="Area2D"]
 script = ExtResource("1_5jc4t")
-slime_speed = -50.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -9)
 scale = Vector2(0.978082, 0.96972)
 sprite_frames = SubResource("SpriteFrames_jrxk1")
-animation = &"idle"
+animation = &"hit"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
