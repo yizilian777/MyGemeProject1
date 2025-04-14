@@ -1,5 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://c747jc5p7ikn4"]
+[gd_scene load_steps=18 format=3 uid="uid://c747jc5p7ikn4"]
 
+[ext_resource type="Script" uid="uid://bxssyicah7eoa" path="res://scripts/dog.gd" id="1_gmowd"]
 [ext_resource type="Texture2D" uid="uid://ccmsrxocv62f8" path="res://Assets/Characters/Enemies and NPC/Dog/Spritesheets/dog.png" id="1_nhxoo"]
 [ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="1_qjqk5"]
 [ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="2_5ieuq"]
@@ -98,6 +99,7 @@ animations = [{
 radius = 6.2346
 
 [node name="dog" type="Area2D"]
+script = ExtResource("1_gmowd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -1)
@@ -105,7 +107,7 @@ scale = Vector2(1.67285, 1.37836)
 sprite_frames = SubResource("SpriteFrames_yfefq")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.162307
+frame_progress = 0.862355
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 7)
@@ -115,3 +117,6 @@ shape = SubResource("CircleShape2D_7gf3g")
 
 [node name="deathsound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_5ieuq")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
