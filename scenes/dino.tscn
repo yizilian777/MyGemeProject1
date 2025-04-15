@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://di7j4m5jy6f2j"]
+[gd_scene load_steps=22 format=3 uid="uid://di7j4m5jy6f2j"]
 
 [ext_resource type="Script" uid="uid://bxh0ar4838jqk" path="res://scripts/dino.gd" id="1_4s6ie"]
-[ext_resource type="Texture2D" uid="uid://b3snd5pems2tr" path="res://Assets/Characters/Enemies and NPC/Dino/Spritesheets/dino.png" id="1_j5dwh"]
-[ext_resource type="Texture2D" uid="uid://d0noxjd88t8am" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_ybb2o"]
-[ext_resource type="AudioStream" uid="uid://bpce0pw3fapq1" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_qwydg"]
+[ext_resource type="Texture2D" uid="uid://yf3nx8ie4v84" path="res://Assets/Characters/Enemies and NPC/Dino/Spritesheets/dino.png" id="1_j5dwh"]
+[ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_ybb2o"]
+[ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_qwydg"]
+[ext_resource type="AudioStream" uid="uid://dgd7rd14gyu7v" path="res://AssetBundle/Audio/350919__cabled_mess__hurt_c_05.wav" id="5_7mjhv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrxk1"]
 atlas = ExtResource("2_ybb2o")
@@ -122,7 +123,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_x81ab"]
 radius = 9.0
 
-[node name="Dino" type="Area2D"]
+[node name="Dino" type="Area2D" groups=["enemy"]]
 script = ExtResource("1_4s6ie")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -136,6 +137,9 @@ shape = SubResource("CircleShape2D_x81ab")
 
 [node name="deathsound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_qwydg")
+
+[node name="hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_7mjhv")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

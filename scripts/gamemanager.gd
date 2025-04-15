@@ -9,6 +9,12 @@ extends Node2D
 @export var dog_scene: PackedScene
 @export var dog_timer : Timer
 
+@export var skeleton_scene: PackedScene
+@export var skeleton_timer : Timer
+
+@export var frog_scene: PackedScene
+@export var frog_timer : Timer
+
 @export var score : int = 0
 @export var score_label : Label
 @export var game_over_label: Label
@@ -18,12 +24,17 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#怪物生成开始时间
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(10).timeout
 	dino_timer.start()
 	
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(20).timeout
 	dog_timer.start()
-
+	
+	await get_tree().create_timer(20).timeout
+	skeleton_timer.start()
+	
+	await get_tree().create_timer(2).timeout
+	frog_timer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -49,6 +60,12 @@ func _spawn_dino() -> void:
 	
 func _spawn_dog() -> void:
 	_spawn_enemy(dog_scene)
+	
+func _spawn_skeleton() -> void:
+	_spawn_enemy(skeleton_scene)
+
+func _spawn_frog() -> void:
+	_spawn_enemy(frog_scene)
 	
 func show_game_over():
 	game_over_label.visible = true

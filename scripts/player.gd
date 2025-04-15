@@ -6,7 +6,15 @@ extends CharacterBody2D
 
 var is_game_over :bool = false
 
+var current_weapon = "normal"  # 默认武器类型
+
+
+#枪
 @export var bullet_scene : PackedScene
+
+#火球
+@export var fireball_scene : PackedScene
+
 
 #升级
 var kill_count = 0
@@ -15,6 +23,8 @@ var player_level = 1
 
 @export var shoot_timer: Timer
 
+var fire_cooldown = 0.3  # 当前冷却时间
+var fire_timer = 0.0  # 累计时间
 
 
 
@@ -51,15 +61,31 @@ func game_over():
 		$RestartTimer.start()
 
 
+func _unhandled_input(event):
+	if event.is_action_pressed("switch_weapon"):
+		if current_weapon == "normal":
+			current_weapon = "fireball"
+		else:
+			current_weapon = "normal"
+
+
+
 func _on_fire() -> void:
 	if velocity != Vector2.ZERO or is_game_over:
 		return
 	
 	$firesound.play()
 	
-	var bullet_node = bullet_scene.instantiate()
-	bullet_node.position = position + Vector2(6, 6)
-	get_tree().current_scene.add_child(bullet_node)
+	var bullet
+	if current_weapon == "normal":
+		bullet = bullet_scene.instantiate()
+	elif current_weapon == "fireball":
+		bullet = fireball_scene.instantiate()
+	else:
+		return  # 保险：未知武器不发射
+
+	bullet.position = position + Vector2(10, 6)
+	get_tree().current_scene.add_child(bullet)
 
 
 func _reload_scene() -> void:

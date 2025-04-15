@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://ehun7e2cbt1g"]
+
+[ext_resource type="Texture2D" uid="uid://d3u677f54l5u7" path="res://AssetBundle/Sprites/frog-jump.png" id="1_mqod6"]
+[ext_resource type="Script" uid="uid://uysvdetxn8lh" path="res://scripts/frog.gd" id="1_qyo2l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qyo2l"]
+atlas = ExtResource("1_mqod6")
+region = Rect2(0, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq8tc"]
+atlas = ExtResource("1_mqod6")
+region = Rect2(35, 0, 35, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g2vb"]
+atlas = ExtResource("1_mqod6")
+region = Rect2(70, 0, 35, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ybftx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qyo2l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq8tc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1g2vb")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ifle"]
+radius = 11.0
+
+[node name="frog" type="Area2D" groups=["enemy"]]
+script = ExtResource("1_qyo2l")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ybftx")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.819965
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 0)
+shape = SubResource("CircleShape2D_4ifle")
