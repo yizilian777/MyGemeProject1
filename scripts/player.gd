@@ -7,10 +7,11 @@ var is_panel_open = false
 var attribute_points = 5
 var attack = 1
 var hp = 1
+var crit_rate = 0
 @onready var upgrade_ui = $"../UpgradeUI"
 
 var current_skin_index = 0  # 0 = Foxy, 1 = Fiery Imp
-@onready var skins = [$"Fiery Imp", $Foxy]  # 注意名字大小写要对上
+@onready var skins = [$Foxy,$"Fiery Imp"]  # 注意名字大小写要对上
 var is_foxy = true  # 当前是否是Foxy
 
 
@@ -43,29 +44,11 @@ var fire_cooldown = 0.3  # 当前冷却时间
 var fire_timer = 0.0  # 累计时间
 
 
-func _ready():
-	switch_skin()
-	
-	
-func _switch_character():
-	is_foxy = !is_foxy
-	
-	$Foxy.visible = is_foxy
-	$"Fiery Imp".visible = not is_foxy
-	emit_signal("enemy_died")
-
-	if is_foxy:
-		animator = $Foxy
-	else:
-		animator = $FieryImp
-	
-	animator.play("idle")
-	
 		
 func switch_skin():
 	current_skin_index = (current_skin_index + 1) % skins.size()
 
-	for i in skins.size():
+	for i in range(skins.size()):
 		skins[i].visible = i == current_skin_index
 	
 	# 更新 animator 引用
@@ -128,6 +111,8 @@ func _on_fire() -> void:
 		bullet = bullet_scene.instantiate()
 		bullet.damage_source = "normal"
 		$firesound.play()
+		bullet.position = position + Vector2(10, 6)
+		get_tree().current_scene.add_child(bullet)
 	elif current_weapon == "fireball":
 		is_attacking = true
 		animator.play("shot")
@@ -144,8 +129,7 @@ func _on_fire() -> void:
 	else:
 		return  # 保险：未知武器不发射
 
-	bullet.position = position + Vector2(10, 6)
-	get_tree().current_scene.add_child(bullet)
+
 
 
 func _reload_scene() -> void:
@@ -163,6 +147,7 @@ func level_up():
 	player_level += 1
 	kill_count = 0
 	kills_to_level_up += 5
+	#show_level_up_menu
 
 	
 	label.position = position + Vector2(-50, -28)
@@ -181,5 +166,5 @@ func level_up():
 func toggle_stat_panel():
 	is_panel_open = !is_panel_open
 	stat_panel.visible = is_panel_open
-	get_tree().paused 
+	get_tree().paused = is_panel_open
 	

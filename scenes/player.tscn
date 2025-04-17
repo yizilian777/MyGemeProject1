@@ -378,6 +378,7 @@ animation = &"win"
 autoplay = "idle"
 
 [node name="Fiery Imp" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(-1, -5)
 scale = Vector2(0.876567, 0.856113)
 sprite_frames = SubResource("SpriteFrames_g5jhy")

@@ -210,51 +210,55 @@ theme_override_font_sizes/font_size = 120
 text = "GAME OVER!"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("8_gee14")
 autoplay = true
 
-[node name="UpgradeUI" type="Control" parent="."]
+[node name="LevelUpPanel" type="Control" parent="."]
+process_mode = 2
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 113.0
 
-[node name="Label" type="Label" parent="UpgradeUI"]
+[node name="Button" type="Button" parent="LevelUpPanel"]
 layout_mode = 2
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="Label2" type="Label" parent="UpgradeUI"]
-layout_mode = 2
-offset_top = 27.0
-offset_right = 40.0
-offset_bottom = 50.0
-
-[node name="Button" type="Button" parent="UpgradeUI"]
-layout_mode = 2
-offset_left = 16.0
-offset_top = 54.0
-offset_right = 24.0
-offset_bottom = 62.0
+offset_left = -103.0
+offset_top = -11.0
+offset_right = -95.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.214, 1.3271)
 size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_iywne")
+theme_override_font_sizes/font_size = 10
+flat = true
 
-[node name="Label3" type="Label" parent="UpgradeUI"]
-layout_mode = 2
-offset_top = 66.0
-offset_right = 40.0
-offset_bottom = 89.0
+[node name="Button2" type="Button" parent="LevelUpPanel"]
+layout_mode = 0
+offset_left = -11.0
+offset_top = -12.0
+offset_right = -3.0
+offset_bottom = -4.0
+scale = Vector2(1.214, 1.3271)
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_iywne")
+theme_override_font_sizes/font_size = 10
+flat = true
 
-[node name="Button2" type="Button" parent="UpgradeUI"]
-layout_mode = 2
-offset_top = 93.0
-offset_right = 40.0
-offset_bottom = 101.0
-
-[node name="Button3" type="Button" parent="UpgradeUI"]
-layout_mode = 2
-offset_top = 105.0
-offset_right = 40.0
-offset_bottom = 113.0
+[node name="Button3" type="Button" parent="LevelUpPanel"]
+layout_mode = 0
+offset_left = 87.0
+offset_top = -12.0
+offset_right = 95.0
+offset_bottom = -4.0
+scale = Vector2(1.214, 1.3271)
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("5_iywne")
+theme_override_font_sizes/font_size = 10
+flat = true
 
 [connection signal="timeout" from="monster timer/siime" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/dino" to="." method="_spawn_dino"]
