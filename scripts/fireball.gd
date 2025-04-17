@@ -1,9 +1,11 @@
 extends Area2D #宣言
 
-
+@export var damage_source: String = "fireball"
 @export var speed = 200  # 慢速移动
 @export var explosion_scale = 5.0
-@export var initial_radius = 10.0  # 🔧 新增：初始判定范围
+@export var knockback_strength: float = 5.0
+
+@export var initial_radius = 10.0  #  新增：初始判定范围
 @export var explosion_radius = 50.0  # 爆炸时的固定判定范围
 
 
@@ -65,7 +67,7 @@ func apply_aoe_damage():
 	query.collision_mask = collision_mask  # 换成你敌人的层编号
 
 	var results = space.intersect_shape(query)
-
+	
 	print("爆炸命中数：", results.size())
 
 	for item in results:

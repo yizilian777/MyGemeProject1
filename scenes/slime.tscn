@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://bixfgiso3njcu"]
+[gd_scene load_steps=24 format=3 uid="uid://bixfgiso3njcu"]
 
 [ext_resource type="Texture2D" uid="uid://b4kx4xgm2g3er" path="res://AssetBundle/Sprites/Slimer.png" id="1_2d52u"]
 [ext_resource type="Script" uid="uid://cmnv3l0jvo05v" path="res://scripts/slime.gd" id="1_5jc4t"]
 [ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_4l1t8"]
+[ext_resource type="AudioStream" uid="uid://vhj7vrvdwb2l" path="res://AssetBundle/Audio/fireball_hurt.wav" id="3_gstla"]
 [ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_ppcr1"]
 [ext_resource type="AudioStream" uid="uid://dgd7rd14gyu7v" path="res://AssetBundle/Audio/350919__cabled_mess__hurt_c_05.wav" id="5_2npkn"]
 
@@ -127,16 +128,16 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_alucd"]
 radius = 2.47838
 
-[node name="slime" type="Area2D" groups=["enemy"]]
+[node name="slime" type="Area2D" node_paths=PackedStringArray("player") groups=["enemy"]]
 script = ExtResource("1_5jc4t")
+player = NodePath(".")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -9)
 scale = Vector2(0.978082, 0.96972)
 sprite_frames = SubResource("SpriteFrames_jrxk1")
-animation = &"idle"
+animation = &"death"
 autoplay = "idle"
-frame_progress = 0.502414
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -148,6 +149,9 @@ stream = ExtResource("4_ppcr1")
 
 [node name="hurt" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_2npkn")
+
+[node name="fireball_hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_gstla")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

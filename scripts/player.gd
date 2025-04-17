@@ -1,5 +1,19 @@
 extends CharacterBody2D
 
+
+#升级界面
+@export var stat_panel: CanvasLayer
+var is_panel_open = false
+var attribute_points = 5
+var attack = 1
+var hp = 1
+@onready var upgrade_ui = $"../UpgradeUI"
+
+var current_skin_index = 0  # 0 = Foxy, 1 = Fiery Imp
+@onready var skins = [$"Fiery Imp", $Foxy]  # 注意名字大小写要对上
+var is_foxy = true  # 当前是否是Foxy
+
+
 @export var move_speed : float = 50
 @export var animator :AnimatedSprite2D
 
@@ -7,6 +21,7 @@ extends CharacterBody2D
 var is_game_over :bool = false
 
 var current_weapon = "normal"  # 默认武器类型
+signal switch_hurt
 
 
 #枪
@@ -15,6 +30,7 @@ var current_weapon = "normal"  # 默认武器类型
 #火球
 @export var fireball_scene : PackedScene
 
+var is_attacking = false #攻击动画锁
 
 #升级
 var kill_count = 0
@@ -27,7 +43,36 @@ var fire_cooldown = 0.3  # 当前冷却时间
 var fire_timer = 0.0  # 累计时间
 
 
+func _ready():
+	switch_skin()
+	
+	
+func _switch_character():
+	is_foxy = !is_foxy
+	
+	$Foxy.visible = is_foxy
+	$"Fiery Imp".visible = not is_foxy
+	emit_signal("enemy_died")
 
+	if is_foxy:
+		animator = $Foxy
+	else:
+		animator = $FieryImp
+	
+	animator.play("idle")
+	
+		
+func switch_skin():
+	current_skin_index = (current_skin_index + 1) % skins.size()
+
+	for i in skins.size():
+		skins[i].visible = i == current_skin_index
+	
+	# 更新 animator 引用
+	animator = skins[current_skin_index]
+	animator.play("idle")  # 初始动画（可选）
+	
+	
 func _process(delta: float) -> void:
 	if velocity == Vector2.ZERO or is_game_over:
 		$runningsound.stop()
@@ -39,12 +84,13 @@ func _physics_process(delta: float) -> void:
 	if not is_game_over :
 		velocity = Input.get_vector("left","right","up","down") * move_speed
 		
+		if not is_attacking:
 		# 待机和跑步动画
-		if  velocity == Vector2.ZERO:
-			animator.play("idle")
-		else:
-			animator.play("run")
-			
+			if  velocity == Vector2.ZERO:
+				animator.play("idle")
+			else:
+				animator.play("run")
+				
 		move_and_slide()
 
 
@@ -63,24 +109,38 @@ func game_over():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("switch_weapon"):
+		switch_skin()
 		if current_weapon == "normal":
 			current_weapon = "fireball"
 		else:
 			current_weapon = "normal"
-
+	
+	if event.is_action_pressed("open_stat_panel"):
+		toggle_stat_panel()
 
 
 func _on_fire() -> void:
-	if velocity != Vector2.ZERO or is_game_over:
+	if velocity != Vector2.ZERO or is_game_over or is_attacking:
 		return
-	
-	$firesound.play()
 	
 	var bullet
 	if current_weapon == "normal":
 		bullet = bullet_scene.instantiate()
+		bullet.damage_source = "normal"
+		$firesound.play()
 	elif current_weapon == "fireball":
+		is_attacking = true
+		animator.play("shot")
+		$fireball_shot.play()
 		bullet = fireball_scene.instantiate()
+		bullet.damage_source = "fireball"
+		await get_tree().create_timer(0.2).timeout
+		
+		bullet.position = position + Vector2(10, 6)
+		get_tree().current_scene.add_child(bullet)
+		await get_tree().create_timer(0.7).timeout  # 动画播放时长
+		is_attacking = false
+		return
 	else:
 		return  # 保险：未知武器不发射
 
@@ -116,4 +176,10 @@ func level_up():
 	
 	print("更吊了！当前等级为：", player_level)
 	
+	
+		
+func toggle_stat_panel():
+	is_panel_open = !is_panel_open
+	stat_panel.visible = is_panel_open
+	get_tree().paused 
 	

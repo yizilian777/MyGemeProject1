@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://c747jc5p7ikn4"]
+[gd_scene load_steps=20 format=3 uid="uid://c747jc5p7ikn4"]
 
 [ext_resource type="Script" uid="uid://bxssyicah7eoa" path="res://scripts/dog.gd" id="1_gmowd"]
 [ext_resource type="Texture2D" uid="uid://ccmsrxocv62f8" path="res://Assets/Characters/Enemies and NPC/Dog/Spritesheets/dog.png" id="1_nhxoo"]
 [ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="1_qjqk5"]
 [ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="2_5ieuq"]
 [ext_resource type="AudioStream" uid="uid://dgd7rd14gyu7v" path="res://AssetBundle/Audio/350919__cabled_mess__hurt_c_05.wav" id="5_tpbal"]
+[ext_resource type="AudioStream" uid="uid://biqgax4do3ujw" path="res://AssetBundle/Audio/fireball_shot.wav" id="6_iaoh4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrxk1"]
 atlas = ExtResource("1_qjqk5")
@@ -99,7 +100,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_7gf3g"]
 radius = 6.70174
 
-[node name="dog" type="Area2D"]
+[node name="dog" type="Area2D" groups=["enemy"]]
 script = ExtResource("1_gmowd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -121,6 +122,9 @@ stream = ExtResource("2_5ieuq")
 
 [node name="hurt" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_tpbal")
+
+[node name="fireball_hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_iaoh4")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

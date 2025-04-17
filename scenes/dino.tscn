@@ -1,10 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://di7j4m5jy6f2j"]
+[gd_scene load_steps=23 format=3 uid="uid://di7j4m5jy6f2j"]
 
 [ext_resource type="Script" uid="uid://bxh0ar4838jqk" path="res://scripts/dino.gd" id="1_4s6ie"]
 [ext_resource type="Texture2D" uid="uid://yf3nx8ie4v84" path="res://Assets/Characters/Enemies and NPC/Dino/Spritesheets/dino.png" id="1_j5dwh"]
 [ext_resource type="Texture2D" uid="uid://68iq6ftt3tav" path="res://AssetBundle/Sprites/SlimerDeath.png" id="2_ybb2o"]
 [ext_resource type="AudioStream" uid="uid://bqkggey7c1lv8" path="res://AssetBundle/Audio/EnemyDeath.mp3" id="4_qwydg"]
 [ext_resource type="AudioStream" uid="uid://dgd7rd14gyu7v" path="res://AssetBundle/Audio/350919__cabled_mess__hurt_c_05.wav" id="5_7mjhv"]
+[ext_resource type="AudioStream" uid="uid://biqgax4do3ujw" path="res://AssetBundle/Audio/fireball_shot.wav" id="6_focm0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jrxk1"]
 atlas = ExtResource("2_ybb2o")
@@ -140,6 +141,9 @@ stream = ExtResource("4_qwydg")
 
 [node name="hurt" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_7mjhv")
+
+[node name="fireball_hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_focm0")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -213,11 +213,54 @@ text = "GAME OVER!"
 stream = ExtResource("8_gee14")
 autoplay = true
 
+[node name="UpgradeUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 113.0
+
+[node name="Label" type="Label" parent="UpgradeUI"]
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Label2" type="Label" parent="UpgradeUI"]
+layout_mode = 2
+offset_top = 27.0
+offset_right = 40.0
+offset_bottom = 50.0
+
+[node name="Button" type="Button" parent="UpgradeUI"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 54.0
+offset_right = 24.0
+offset_bottom = 62.0
+size_flags_horizontal = 4
+
+[node name="Label3" type="Label" parent="UpgradeUI"]
+layout_mode = 2
+offset_top = 66.0
+offset_right = 40.0
+offset_bottom = 89.0
+
+[node name="Button2" type="Button" parent="UpgradeUI"]
+layout_mode = 2
+offset_top = 93.0
+offset_right = 40.0
+offset_bottom = 101.0
+
+[node name="Button3" type="Button" parent="UpgradeUI"]
+layout_mode = 2
+offset_top = 105.0
+offset_right = 40.0
+offset_bottom = 113.0
+
 [connection signal="timeout" from="monster timer/siime" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/dino" to="." method="_spawn_dino"]
 [connection signal="timeout" from="monster timer/dog" to="." method="_on_dog_timeout"]
 [connection signal="timeout" from="monster timer/dog" to="." method="_spawn_dog"]
 [connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_skeleton"]
-[connection signal="timeout" from="monster timer/frog" to="." method="_spawn_frog"]
 [connection signal="timeout" from="monster timer/frog" to="." method="_spawn_slime"]
+[connection signal="timeout" from="monster timer/frog" to="." method="_spawn_frog"]

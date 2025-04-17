@@ -4,6 +4,12 @@ extends Area2D
 @export var health: int = 1
 @export var player : Node
 
+@onready var hurt_sound: AudioStreamPlayer = $hurt  # 场景里的播放器
+
+@export var default_hurt_sound: AudioStream# 音频资源（拖入 .ogg）
+@export var fireball_hurt_sound: AudioStream 
+
+
 var is_dead = false
 
 #移动
@@ -20,6 +26,10 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	if area.is_in_group("bullet"):
 		area.queue_free()
+		
+		var sound_type = "normal"
+
+		hurt_sound.play()
 		health -= 1
 		$hurt.play()
 		flash_red()
@@ -28,13 +38,14 @@ func _on_area_entered(area: Area2D) -> void:
 			die()
 
 #爆炸伤害
-func take_damage(amount: int):
+func take_damage(amount: int, source: String = ""):
 	health -= amount
-	$hurt.play()
+	hurt_sound.play()
 	flash_red()
-	knockback(80)  # 你也可以传 area.knockback_strength
 	if health <= 0:
 		die()
+	else:
+		knockback(80)
 
 #怪物碰撞
 func _on_body_entered(body: Node2D) -> void:

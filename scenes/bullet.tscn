@@ -13,5 +13,5 @@ bullet_speed = 200.0
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_mkf8s")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["bullet"]]
 shape = SubResource("RectangleShape2D_p2gj0")

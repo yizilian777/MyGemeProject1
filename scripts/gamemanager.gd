@@ -21,19 +21,20 @@ extends Node2D
 @export var player: Node
 @export var level_up_label : Label
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#怪物生成开始时间
-	await get_tree().create_timer(10).timeout
+	await get_tree().create_timer(5).timeout
 	dino_timer.start()
 	
-	await get_tree().create_timer(20).timeout
+	await get_tree().create_timer(5).timeout
 	dog_timer.start()
 	
-	await get_tree().create_timer(20).timeout
+	await get_tree().create_timer(5).timeout
 	skeleton_timer.start()
 	
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(5).timeout
 	frog_timer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
