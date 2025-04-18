@@ -91,7 +91,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ifle"]
-radius = 11.0
+radius = 8.0
 
 [node name="frog" type="Area2D" groups=["enemy"]]
 process_mode = 1
@@ -103,7 +103,7 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2, 0)
+position = Vector2(-2, 3)
 shape = SubResource("CircleShape2D_4ifle")
 
 [node name="deathsound" type="AudioStreamPlayer" parent="."]

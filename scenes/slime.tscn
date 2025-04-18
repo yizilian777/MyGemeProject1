@@ -137,7 +137,7 @@ player = NodePath(".")
 position = Vector2(0, -9)
 scale = Vector2(0.978082, 0.96972)
 sprite_frames = SubResource("SpriteFrames_jrxk1")
-animation = &"death"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

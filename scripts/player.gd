@@ -6,8 +6,9 @@ extends CharacterBody2D
 var is_panel_open = false
 var attribute_points = 5
 var attack = 1
-var hp = 1
+var hp = 200
 var crit_rate = 0
+var fireball_explosion_radius = 20.0 #火球大小
 @onready var upgrade_ui = $"../UpgradeUI"
 
 var current_skin_index = 0  # 0 = Foxy, 1 = Fiery Imp
@@ -81,7 +82,6 @@ func game_over():
 	if not is_game_over:
 		
 		is_game_over = true
-		animator.play("game_over")
 		
 		get_tree().current_scene.show_game_over()
 		$gameoversound.play()
@@ -109,6 +109,7 @@ func _on_fire() -> void:
 	var bullet
 	if current_weapon == "normal":
 		bullet = bullet_scene.instantiate()
+		bullet.attack = attack 
 		bullet.damage_source = "normal"
 		$firesound.play()
 		bullet.position = position + Vector2(10, 6)
@@ -118,6 +119,8 @@ func _on_fire() -> void:
 		animator.play("shot")
 		$fireball_shot.play()
 		bullet = fireball_scene.instantiate()
+		bullet.attack = attack
+		bullet.explosion_radius = fireball_explosion_radius  # ✅ 传入爆炸范围
 		bullet.damage_source = "fireball"
 		await get_tree().create_timer(0.2).timeout
 		
@@ -135,6 +138,18 @@ func _on_fire() -> void:
 func _reload_scene() -> void:
 	get_tree().reload_current_scene()
 	
+func take_damage(amount: int):
+	animator.play("game_over")
+	if is_game_over:
+		return
+	hp -= amount
+	$hurt.play()
+	if hp <= 0:
+		hp = 0
+		game_over()
+	else:
+		flash_red()
+		shake_camera()
 
 func on_enemy_killed():
 	kill_count += 1
@@ -147,14 +162,11 @@ func level_up():
 	player_level += 1
 	kill_count = 0
 	kills_to_level_up += 5
-	#show_level_up_menu
 
 	
 	label.position = position + Vector2(-50, -28)
 	label.visible = true
 	label.get_node("LevelUpAnim").play("show_level_up")
-	
-	shoot_timer.wait_time = shoot_timer.wait_time*0.7
 	get_tree().current_scene.show_level_up()
 	
 
@@ -168,3 +180,17 @@ func toggle_stat_panel():
 	stat_panel.visible = is_panel_open
 	get_tree().paused = is_panel_open
 	
+func flash_red():
+	modulate = Color(1, 0, 0)  # 变红
+	await get_tree().create_timer(0.2).timeout
+	modulate = Color(1, 1, 1)  # 恢复原色
+	
+func shake_camera():
+	var camera = get_node("../Camera2D") # 根据实际路径改一下
+	var original_offset = camera.offset
+	var tween = create_tween()
+	
+	# 快速左右晃动
+	tween.tween_property(camera, "offset", original_offset + Vector2(10, 0), 0.05)
+	tween.tween_property(camera, "offset", original_offset - Vector2(10, 0), 0.05)
+	tween.tween_property(camera, "offset", original_offset, 0.05)

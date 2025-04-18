@@ -30,7 +30,10 @@ func _on_area_entered(area: Area2D) -> void:
 		var sound_type = "normal"
 
 		hurt_sound.play()
-		health -= 1
+		#health -= 1
+		var damage
+		damage = area.attack  # ✅ 直接访问变量，不调用函数
+		take_damage(damage)
 		$hurt.play()
 		flash_red()
 		knockback(area.knockback_strength)  # 击退
@@ -45,12 +48,12 @@ func take_damage(amount: int, source: String = ""):
 	if health <= 0:
 		die()
 	else:
-		knockback(80)
+		knockback(5)
 
 #怪物碰撞
 func _on_body_entered(body: Node2D) -> void:
 	if body is CharacterBody2D and not is_dead:
-		body.game_over()
+		body.take_damage(1)
 
 #受击
 func knockback(strength: float = 30.0):

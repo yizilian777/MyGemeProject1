@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://bjyyj7c3vi0jc"]
+[gd_scene load_steps=60 format=3 uid="uid://bjyyj7c3vi0jc"]
 
 [ext_resource type="Texture2D" uid="uid://crlcpp816v22a" path="res://AssetBundle/Sprites/Foxy.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bptbrxp2xqrbe" path="res://scripts/player.gd" id="1_g2els"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://byya1wmae8ang" path="res://AssetBundle/Sprites/fiery/walk-preview.png" id="7_jej6c"]
 [ext_resource type="Texture2D" uid="uid://dionuqqsmwjft" path="res://AssetBundle/Sprites/fiery/crouch-shot-sheet.png" id="8_f1ej7"]
 [ext_resource type="AudioStream" uid="uid://biqgax4do3ujw" path="res://AssetBundle/Audio/fireball_shot.wav" id="12_3v2ag"]
+[ext_resource type="AudioStream" uid="uid://dhiuqy6skmc1x" path="res://AssetBundle/Audio/344523__jeremysykes__hurt05.wav" id="13_jej6c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3v2ag"]
 atlas = ExtResource("1_3vyb7")
@@ -268,7 +269,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_60mlk")
 }],
-"loop": false,
+"loop": true,
 "name": &"game_over",
 "speed": 6.0
 }, {
@@ -361,11 +362,10 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g2els"]
-radius = 1.41273
+radius = 0.606779
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("animator", "shoot_timer")]
 script = ExtResource("1_g2els")
-move_speed = 100.0
 animator = NodePath("Foxy")
 bullet_scene = ExtResource("2_qhqgy")
 fireball_scene = ExtResource("3_fjrip")
@@ -374,7 +374,7 @@ shoot_timer = NodePath("Timer")
 [node name="Foxy" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"win"
+animation = &"game_over"
 autoplay = "idle"
 
 [node name="Fiery Imp" type="AnimatedSprite2D" parent="."]
@@ -382,15 +382,13 @@ visible = false
 position = Vector2(-1, -5)
 scale = Vector2(0.876567, 0.856113)
 sprite_frames = SubResource("SpriteFrames_g5jhy")
-animation = &"shot"
+animation = &"game_over"
 autoplay = "idle"
-frame = 3
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2.98023e-08, 9)
-rotation = 0.557483
-scale = Vector2(3.59413, 3.72234)
+position = Vector2(-2, 10)
+rotation = -0.0467784
+scale = Vector2(6.23591, 2.08857)
 shape = SubResource("CircleShape2D_g2els")
 
 [node name="Timer" type="Timer" parent="."]
@@ -413,6 +411,9 @@ volume_db = 3.748
 
 [node name="fireball_shot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_3v2ag")
+
+[node name="hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_jej6c")
 
 [connection signal="timeout" from="Timer" to="." method="_on_fire"]
 [connection signal="timeout" from="RestartTimer" to="." method="_reload_scene"]

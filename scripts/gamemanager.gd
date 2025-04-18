@@ -22,11 +22,12 @@ extends Node2D
 @export var level_up_label : Label
 
 var upgrades = [
-	{ "name": "攻击力 +1", "effect": func(): player.attack += 1 },
-	{ "name": "速度 x1.5", "effect": func(): player.move_speed *= 1.5 },
-	{ "name": "HP +20", "effect": func(): player.hp += 20 },
-	{ "name": "攻击速度 -30%", "effect": func(): player.shoot_timer.wait_time *= 0.7 },
-	{ "name": "暴击率 +20%", "effect": func(): player.crit_rate += 0.2 }
+	{ "name": "攻击力+", "effect": func(): player.attack += 10 },
+	{ "name": "移动速度+", "effect": func(): player.move_speed *= 1.5 },
+	{ "name": "HP+", "effect": func(): player.hp += 2 },
+	{ "name": "攻击速度+", "effect": func(): player.shoot_timer.wait_time *= 0.7 },
+	{ "name": "暴击率+", "effect": func(): player.crit_rate += 0.2 },
+	{ "name": "爆炸范围+", "effect": func(): player.fireball_explosion_radius += 10 },
 ]
 
 # Called when the node enters the scene tree for the first time.
@@ -88,19 +89,20 @@ func show_game_over():
 
 
 func show_level_up():
+	if player.is_game_over:
+		return 
+	$"time stop".play()
 	shrink_black_mask_to_circle()
 	get_tree().paused = true
-	
-	
 	
 	var chosen = upgrades.duplicate()
 	chosen.shuffle()
 	chosen = chosen.slice(0, 3)
 
 	var buttons = [
-		$LevelUpPanel/Button,
-		$LevelUpPanel/Button2,
-		$LevelUpPanel/Button3
+		$CanvasLayer/LevelUpPanel/Button,
+		$CanvasLayer/LevelUpPanel/Button2,
+		$CanvasLayer/LevelUpPanel/Button3
 	]
 
 	for i in range(3):
@@ -113,15 +115,29 @@ func show_level_up():
 		button.scale = Vector2(0.0, 0.0)  # 🔸初始缩小
 		button.pivot_offset = (button.size / 2) - Vector2(-5, -5)
 		
+		
 		var tween = create_tween()
-		tween.tween_property(button, "scale", Vector2(0.70, 0.70), 1)
+		tween.tween_property(button, "scale", Vector2(0.70, 0.70), 2)
 		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		
+		# 🔽 添加上下浮动的 tween（循环）
+		var delay = randf_range(0.0, 0.5)
+		var offset = randf_range(4.0, 8.0)  # 上下移动范围
+		var speed = randf_range(0.1, 0.3)   # 移动速度
+
+		var float_tween = create_tween()
+		float_tween.set_loops()  # 无限循环
+		float_tween.tween_property(button, "position:y", button.position.y - 5, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		float_tween.tween_property(button, "position:y", button.position.y, 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+
 	level_up_label.visible = true
 	get_node("level up/LevelUpAnim").play("show_level_up")
-	$LevelUpPanel.visible = true
+	$CanvasLayer/LevelUpPanel.visible = true
 #选择完成
 func _on_upgrade_chosen():
-	$LevelUpPanel.visible = false
+	$button.play()
+	$CanvasLayer/LevelUpPanel.visible = false
 	hide_screen_mask()
 	get_tree().paused = false
 
@@ -130,10 +146,12 @@ func shrink_black_mask_to_circle():
 	mask.visible = true
 	
 	mask.material.set_shader_parameter("radius", 1.5)  # 一开始全透明
+	
 
 	var tween = create_tween()
-	tween.tween_property(mask.material, "shader_parameter/radius", 0.2, 0.5)
-	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(mask.material, "shader_parameter/radius", 0.0, 1.5)
+	tween.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+
 
 func hide_screen_mask():
 	$CanvasLayer/ScreenMask.hide()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ewara0nmoqix"]
+[gd_scene load_steps=19 format=3 uid="uid://ewara0nmoqix"]
 
 [ext_resource type="Script" uid="uid://diloo4lcoxtge" path="res://scripts/gamemanager.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://u8ovop4ced2v" path="res://AssetBundle/Sprites/ForestBackground.png" id="1_uwrxv"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://ehun7e2cbt1g" path="res://scenes/frog.tscn" id="6_kvpfn"]
 [ext_resource type="AudioStream" uid="uid://3n2lkhsaq75o" path="res://AssetBundle/Audio/BGM.ogg" id="8_gee14"]
 [ext_resource type="Shader" uid="uid://dc3v4c134ux1r" path="res://scripts/Shader.gdshader" id="10_kvpfn"]
+[ext_resource type="AudioStream" uid="uid://cfgcg1e5aqr6j" path="res://AssetBundle/Audio/686461__lomowo__time-stops.wav" id="12_dinhu"]
+[ext_resource type="AudioStream" uid="uid://2ky44f176don" path="res://AssetBundle/Audio/80921__justinbw__buttonchime02up.wav" id="13_kvuet"]
 
 [sub_resource type="Animation" id="Animation_p57ef"]
 length = 0.001
@@ -121,6 +123,7 @@ position = Vector2(-180, 76)
 
 [node name="level up" type="Label" parent="."]
 visible = false
+z_index = 10
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -222,134 +225,108 @@ text = "GAME OVER!"
 process_mode = 3
 z_index = 10
 material = SubResource("ShaderMaterial_dinhu")
-offset_left = 1.0
+offset_left = 0.999992
 offset_right = 1162.0
 offset_bottom = 638.0
+scale = Vector2(0.991805, 1.01853)
 mouse_filter = 2
 color = Color(0, 0, 0, 0.407843)
+
+[node name="LevelUpPanel" type="Control" parent="CanvasLayer"]
+process_mode = 2
+z_index = 120
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.00006
+offset_top = -10.0
+offset_right = 11.9999
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3.43533, 3.41271)
+pivot_offset = Vector2(10, 10)
+size_flags_horizontal = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="CanvasLayer/LevelUpPanel"]
+z_index = 12
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -48.8197
+offset_top = 33.2045
+offset_right = -48.8197
+offset_bottom = 33.2045
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.00133e-05, 1e-05)
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("5_iywne")
+flat = true
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="CanvasLayer/LevelUpPanel"]
+z_index = 12
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -0.648395
+offset_top = -23.4256
+offset_right = -0.648396
+offset_bottom = -23.4256
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("5_iywne")
+flat = true
+icon_alignment = 1
+
+[node name="Button3" type="Button" parent="CanvasLayer/LevelUpPanel"]
+z_index = 12
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 59.6925
+offset_top = 34.0333
+offset_right = 59.6925
+offset_bottom = 34.0333
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("5_iywne")
+flat = true
+icon_alignment = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("8_gee14")
 autoplay = true
 
-[node name="LevelUpPanel" type="Control" parent="."]
-process_mode = 2
-z_index = 120
-layout_mode = 3
-anchors_preset = 0
-offset_left = -63.0
-offset_top = -54.0
-offset_right = -43.0
-offset_bottom = -34.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.525, 1.5)
-size_flags_horizontal = 4
-metadata/_edit_use_anchors_ = true
+[node name="time stop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_dinhu")
 
-[node name="Button" type="Button" parent="LevelUpPanel"]
-z_index = 12
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 12.459
-offset_top = 35.3333
-offset_right = 12.459
-offset_bottom = 35.3333
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1e-05, 1e-05)
-size_flags_horizontal = 4
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("5_iywne")
-flat = true
-icon_alignment = 1
-
-[node name="Button2" type="Button" parent="LevelUpPanel"]
-z_index = 12
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 40.6557
-offset_top = 5.33333
-offset_right = 40.6557
-offset_bottom = 5.33333
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1e-05, 1e-05)
-size_flags_horizontal = 4
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("5_iywne")
-flat = true
-icon_alignment = 1
-
-[node name="Button3" type="Button" parent="LevelUpPanel"]
-z_index = 12
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 73.4426
-offset_top = 34.6667
-offset_right = 73.4426
-offset_bottom = 34.6667
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1e-05, 1e-05)
-size_flags_horizontal = 4
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("5_iywne")
-flat = true
-icon_alignment = 1
-
-[node name="Button2" type="Button" parent="."]
-z_index = 12
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -35.0
-offset_top = -70.0
-offset_right = 45.0
-offset_bottom = 10.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(-0.092292, 0.101022)
-pivot_offset = Vector2(114, 111)
-size_flags_horizontal = 4
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("5_iywne")
-flat = true
-icon_alignment = 1
-
-[node name="Button3" type="Button" parent="."]
-z_index = 12
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 6.00001
-offset_top = -29.0
-offset_right = 86.0
-offset_bottom = 51.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(-0.0935721, 0.0915129)
-pivot_offset = Vector2(114, 111)
-size_flags_horizontal = 4
-theme_override_constants/outline_size = 12
-theme_override_fonts/font = ExtResource("5_iywne")
-icon_alignment = 1
+[node name="button" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_kvuet")
 
 [connection signal="timeout" from="monster timer/siime" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/dino" to="." method="_spawn_dino"]
-[connection signal="timeout" from="monster timer/dog" to="." method="_spawn_dog"]
 [connection signal="timeout" from="monster timer/dog" to="." method="_on_dog_timeout"]
+[connection signal="timeout" from="monster timer/dog" to="." method="_spawn_dog"]
 [connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_skeleton"]
 [connection signal="timeout" from="monster timer/frog" to="." method="_spawn_slime"]

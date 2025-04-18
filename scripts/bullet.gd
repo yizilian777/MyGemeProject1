@@ -1,5 +1,6 @@
 extends Area2D
 
+var attack = 1  # ⬅️ 接收来自玩家的攻击力
 @export var bullet_speed :float = 100 
 @export var knockback_strength: float = 5.0
 

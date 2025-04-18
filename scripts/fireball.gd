@@ -1,12 +1,14 @@
 extends Area2D #宣言
 
+var attack = 1
 @export var damage_source: String = "fireball"
 @export var speed = 200  # 慢速移动
 @export var explosion_scale = 5.0
 @export var knockback_strength: float = 5.0
 
+
 @export var initial_radius = 10.0  #  新增：初始判定范围
-@export var explosion_radius = 50.0  # 爆炸时的固定判定范围
+@export var explosion_radius = 20.0  # 爆炸时的固定判定范围
 
 
 var shape: CircleShape2D
@@ -37,10 +39,11 @@ func _on_area_entered(area: Area2D):
 		speed = 0
 		
 		
-		scale = Vector2(explosion_scale, explosion_scale)
-		
 		var shape = $CollisionShape2D.shape as CircleShape2D
-		shape.radius = explosion_radius  # ✅ 实际放大  # 放大碰撞区域
+		shape.radius = explosion_radius
+
+	# 🔥 自动按爆炸范围放大视觉
+		scale = Vector2(explosion_radius / initial_radius, explosion_radius / initial_radius)
 		
 		
 		print("爆炸判定范围：", shape.radius)
@@ -75,6 +78,6 @@ func apply_aoe_damage():
 	for item in results:
 		var area = item.collider
 		if area.is_in_group("enemy") and area.has_method("take_damage"):
-			area.take_damage(1)
+			area.take_damage(attack)
 
 		

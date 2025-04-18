@@ -98,7 +98,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7gf3g"]
-radius = 6.70174
+radius = 5.09561
 
 [node name="dog" type="Area2D" groups=["enemy"]]
 process_mode = 1
@@ -115,7 +115,7 @@ frame_progress = 0.862355
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["enemy"]]
 position = Vector2(-1, 9)
 rotation = 7.99527
-scale = Vector2(1.19347, 2.38807)
+scale = Vector2(1.19347, 2.44457)
 shape = SubResource("CircleShape2D_7gf3g")
 
 [node name="deathsound" type="AudioStreamPlayer" parent="."]
