@@ -31,6 +31,7 @@ var upgrades = [
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	hide_screen_mask()
 	#怪物生成开始时间
 	await get_tree().create_timer(5).timeout
 	dino_timer.start()
@@ -50,14 +51,18 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:#每帧运行
 	#怪物生成间隔
-	slime_timer.wait_time -= 0.2 * delta
-	slime_timer.wait_time = clamp(slime_timer.wait_time, 0.1, 3)
+	if get_tree().paused:#如果暂停则不运行
+		return
+	slime_timer.wait_time -= 0.1 * delta
+	slime_timer.wait_time = clamp(slime_timer.wait_time, 0.3, 3)
 
 	score_label.text = "Score: " + str(score)
 
 
 #生成怪物
 func _spawn_enemy(enemy_scene: PackedScene) -> void:
+	if get_tree().paused:
+		return
 	var enemy = enemy_scene.instantiate()
 	enemy.position = Vector2(260, randf_range(50, 120))
 	enemy.player = player
@@ -83,8 +88,11 @@ func show_game_over():
 
 
 func show_level_up():
-
+	shrink_black_mask_to_circle()
 	get_tree().paused = true
+	
+	
+	
 	var chosen = upgrades.duplicate()
 	chosen.shuffle()
 	chosen = chosen.slice(0, 3)
@@ -101,13 +109,32 @@ func show_level_up():
 		button.text = upgrade["name"]
 		button.pressed.connect(upgrade["effect"])
 		button.pressed.connect(_on_upgrade_chosen)
+		
+		button.scale = Vector2(0.0, 0.0)  # 🔸初始缩小
+		button.pivot_offset = (button.size / 2) - Vector2(-5, -5)
+		
+		var tween = create_tween()
+		tween.tween_property(button, "scale", Vector2(0.70, 0.70), 1)
+		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	level_up_label.visible = true
 	get_node("level up/LevelUpAnim").play("show_level_up")
 	$LevelUpPanel.visible = true
-
 #选择完成
 func _on_upgrade_chosen():
 	$LevelUpPanel.visible = false
+	hide_screen_mask()
 	get_tree().paused = false
 
+func shrink_black_mask_to_circle():
+	var mask = $CanvasLayer/ScreenMask
+	mask.visible = true
+	
+	mask.material.set_shader_parameter("radius", 1.5)  # 一开始全透明
+
+	var tween = create_tween()
+	tween.tween_property(mask.material, "shader_parameter/radius", 0.2, 0.5)
+	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func hide_screen_mask():
+	$CanvasLayer/ScreenMask.hide()
 		

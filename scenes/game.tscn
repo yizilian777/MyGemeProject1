@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ewara0nmoqix"]
+[gd_scene load_steps=17 format=3 uid="uid://ewara0nmoqix"]
 
 [ext_resource type="Script" uid="uid://diloo4lcoxtge" path="res://scripts/gamemanager.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://u8ovop4ced2v" path="res://AssetBundle/Sprites/ForestBackground.png" id="1_uwrxv"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://po7bvd50amtu" path="res://scenes/skeleton.tscn" id="5_vtaks"]
 [ext_resource type="PackedScene" uid="uid://ehun7e2cbt1g" path="res://scenes/frog.tscn" id="6_kvpfn"]
 [ext_resource type="AudioStream" uid="uid://3n2lkhsaq75o" path="res://AssetBundle/Audio/BGM.ogg" id="8_gee14"]
+[ext_resource type="Shader" uid="uid://dc3v4c134ux1r" path="res://scripts/Shader.gdshader" id="10_kvpfn"]
 
 [sub_resource type="Animation" id="Animation_p57ef"]
 length = 0.001
@@ -76,7 +77,13 @@ _data = {
 normal = Vector2(0.0016529, -0.999999)
 distance = -5.9821
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dinhu"]
+shader = ExtResource("10_kvpfn")
+shader_parameter/radius = 1.5
+shader_parameter/center = Vector2(0.5, 0.5)
+
 [node name="Node2D" type="Node2D" node_paths=PackedStringArray("slime_timer", "dino_timer", "dog_timer", "skeleton_timer", "frog_timer", "score_label", "game_over_label", "player", "level_up_label")]
+process_mode = 3
 y_sort_enabled = true
 script = ExtResource("1_lbhrr")
 slime_scene = ExtResource("2_u5sy4")
@@ -109,6 +116,7 @@ zoom = Vector2(2.405, 2.405)
 metadata/_edit_lock_ = true
 
 [node name="player" parent="." instance=ExtResource("2_yqjtg")]
+process_mode = 1
 position = Vector2(-180, 76)
 
 [node name="level up" type="Label" parent="."]
@@ -188,6 +196,7 @@ wait_time = 2.0
 wait_time = 2.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
 
 [node name="Label" type="Label" parent="CanvasLayer"]
 offset_left = 16.0
@@ -209,6 +218,16 @@ theme_override_fonts/font = ExtResource("5_iywne")
 theme_override_font_sizes/font_size = 120
 text = "GAME OVER!"
 
+[node name="ScreenMask" type="ColorRect" parent="CanvasLayer"]
+process_mode = 3
+z_index = 10
+material = SubResource("ShaderMaterial_dinhu")
+offset_left = 1.0
+offset_right = 1162.0
+offset_bottom = 638.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.407843)
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("8_gee14")
@@ -216,54 +235,121 @@ autoplay = true
 
 [node name="LevelUpPanel" type="Control" parent="."]
 process_mode = 2
-visible = false
+z_index = 120
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 113.0
-
-[node name="Button" type="Button" parent="LevelUpPanel"]
-layout_mode = 2
-offset_left = -103.0
-offset_top = -11.0
-offset_right = -95.0
-offset_bottom = -3.0
+offset_left = -63.0
+offset_top = -54.0
+offset_right = -43.0
+offset_bottom = -34.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.214, 1.3271)
+scale = Vector2(1.525, 1.5)
 size_flags_horizontal = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="LevelUpPanel"]
+z_index = 12
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.459
+offset_top = 35.3333
+offset_right = 12.459
+offset_bottom = 35.3333
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("5_iywne")
-theme_override_font_sizes/font_size = 10
 flat = true
+icon_alignment = 1
 
 [node name="Button2" type="Button" parent="LevelUpPanel"]
-layout_mode = 0
-offset_left = -11.0
-offset_top = -12.0
-offset_right = -3.0
-offset_bottom = -4.0
-scale = Vector2(1.214, 1.3271)
+z_index = 12
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.6557
+offset_top = 5.33333
+offset_right = 40.6557
+offset_bottom = 5.33333
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
 size_flags_horizontal = 4
+theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("5_iywne")
-theme_override_font_sizes/font_size = 10
 flat = true
+icon_alignment = 1
 
 [node name="Button3" type="Button" parent="LevelUpPanel"]
-layout_mode = 0
-offset_left = 87.0
-offset_top = -12.0
-offset_right = 95.0
-offset_bottom = -4.0
-scale = Vector2(1.214, 1.3271)
+z_index = 12
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 73.4426
+offset_top = 34.6667
+offset_right = 73.4426
+offset_bottom = 34.6667
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
 size_flags_horizontal = 4
+theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("5_iywne")
-theme_override_font_sizes/font_size = 10
 flat = true
+icon_alignment = 1
+
+[node name="Button2" type="Button" parent="."]
+z_index = 12
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -70.0
+offset_right = 45.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(-0.092292, 0.101022)
+pivot_offset = Vector2(114, 111)
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("5_iywne")
+flat = true
+icon_alignment = 1
+
+[node name="Button3" type="Button" parent="."]
+z_index = 12
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 6.00001
+offset_top = -29.0
+offset_right = 86.0
+offset_bottom = 51.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(-0.0935721, 0.0915129)
+pivot_offset = Vector2(114, 111)
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("5_iywne")
+icon_alignment = 1
 
 [connection signal="timeout" from="monster timer/siime" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/dino" to="." method="_spawn_dino"]
-[connection signal="timeout" from="monster timer/dog" to="." method="_on_dog_timeout"]
 [connection signal="timeout" from="monster timer/dog" to="." method="_spawn_dog"]
+[connection signal="timeout" from="monster timer/dog" to="." method="_on_dog_timeout"]
 [connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_skeleton"]
 [connection signal="timeout" from="monster timer/frog" to="." method="_spawn_slime"]

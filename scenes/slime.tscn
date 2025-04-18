@@ -129,6 +129,7 @@ animations = [{
 radius = 2.47838
 
 [node name="slime" type="Area2D" node_paths=PackedStringArray("player") groups=["enemy"]]
+process_mode = 1
 script = ExtResource("1_5jc4t")
 player = NodePath(".")
 

@@ -125,6 +125,7 @@ animations = [{
 radius = 9.0
 
 [node name="Dino" type="Area2D" groups=["enemy"]]
+process_mode = 1
 script = ExtResource("1_4s6ie")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

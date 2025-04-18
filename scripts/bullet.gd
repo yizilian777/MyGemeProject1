@@ -7,6 +7,8 @@ extends Area2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if get_tree().paused:
+		return
 	await get_tree().create_timer(3).timeout
 	queue_free()
 

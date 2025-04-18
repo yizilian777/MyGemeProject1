@@ -94,6 +94,7 @@ animations = [{
 radius = 11.0
 
 [node name="frog" type="Area2D" groups=["enemy"]]
+process_mode = 1
 script = ExtResource("1_qyo2l")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

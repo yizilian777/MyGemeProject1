@@ -23,6 +23,8 @@ func _ready():
 	shape = $CollisionShape2D.shape as CircleShape2D
 	shape.radius = initial_radius
 	original_radius = shape.radius
+	if get_tree().paused:
+		return
 	await get_tree().create_timer(6).timeout
 	queue_free()
 	

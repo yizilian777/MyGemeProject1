@@ -101,6 +101,7 @@ animations = [{
 radius = 6.70174
 
 [node name="dog" type="Area2D" groups=["enemy"]]
+process_mode = 1
 script = ExtResource("1_gmowd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

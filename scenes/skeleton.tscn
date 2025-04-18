@@ -116,6 +116,7 @@ radius = 8.0
 height = 26.0
 
 [node name="Skeleton" type="Area2D" groups=["enemy"]]
+process_mode = 1
 script = ExtResource("1_txkty")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
