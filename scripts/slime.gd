@@ -1,5 +1,5 @@
 extends "res://scripts/Enemy.gd"  # 继承父类
 
 func _ready():
-	health = 1  #血量
-	speed  = -50
+	health = 2  #血量
+	speed  = -25

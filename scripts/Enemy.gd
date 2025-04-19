@@ -31,9 +31,12 @@ func _on_area_entered(area: Area2D) -> void:
 
 		hurt_sound.play()
 		#health -= 1
-		var damage
-		damage = area.attack  # ✅ 直接访问变量，不调用函数
-		take_damage(damage)
+		var damage = area.attack  # 原始攻击力
+		var is_crit = randf() < player.crit_rate  # 暴击判定
+		var final_damage = damage * (2 if is_crit else 1)  # 暴击伤害加倍
+
+		take_damage(final_damage, area.knockback_strength)
+		show_damage_number(final_damage, is_crit)
 		$hurt.play()
 		flash_red()
 		knockback(area.knockback_strength)  # 击退
@@ -41,14 +44,14 @@ func _on_area_entered(area: Area2D) -> void:
 			die()
 
 #爆炸伤害
-func take_damage(amount: int, source: String = ""):
+func take_damage(amount: int, knockback_strength: float, source: String = ""):
 	health -= amount
 	hurt_sound.play()
 	flash_red()
 	if health <= 0:
 		die()
 	else:
-		knockback(5)
+		knockback(player.knockback_strength)
 
 #怪物碰撞
 func _on_body_entered(body: Node2D) -> void:
@@ -65,6 +68,12 @@ func flash_red():
 	$AnimatedSprite2D.modulate = Color(1, 1, 1)       # 恢复原色
 
 
+func show_damage_number(damage: int, is_crit: bool):
+	var damage_label_scene = preload("res://scenes/damage_label.tscn")
+	var label = damage_label_scene.instantiate()
+	label.global_position = global_position + Vector2(0, -20)  # 敌人上方
+	get_tree().current_scene.add_child(label)  # 或 get_parent()，放到合适层级
+	label.start(str(damage), is_crit)
 
 #死亡
 func die():

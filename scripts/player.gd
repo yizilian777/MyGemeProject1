@@ -9,6 +9,7 @@ var attack = 1
 var hp = 200
 var crit_rate = 0
 var fireball_explosion_radius = 20.0 #火球大小
+@export var knockback_strength: float = 5.0
 @onready var upgrade_ui = $"../UpgradeUI"
 
 var current_skin_index = 0  # 0 = Foxy, 1 = Fiery Imp
@@ -103,7 +104,7 @@ func _unhandled_input(event):
 
 
 func _on_fire() -> void:
-	if velocity != Vector2.ZERO or is_game_over or is_attacking:
+	if is_game_over or is_attacking:
 		return
 	
 	var bullet
@@ -115,37 +116,36 @@ func _on_fire() -> void:
 		bullet.position = position + Vector2(10, 6)
 		get_tree().current_scene.add_child(bullet)
 	elif current_weapon == "fireball":
-		is_attacking = true
-		animator.play("shot")
-		$fireball_shot.play()
-		bullet = fireball_scene.instantiate()
-		bullet.attack = attack
-		bullet.explosion_radius = fireball_explosion_radius  # ✅ 传入爆炸范围
-		bullet.damage_source = "fireball"
-		await get_tree().create_timer(0.2).timeout
-		
-		bullet.position = position + Vector2(10, 6)
-		get_tree().current_scene.add_child(bullet)
-		await get_tree().create_timer(0.7).timeout  # 动画播放时长
-		is_attacking = false
-		return
+		if velocity == Vector2.ZERO: 
+			is_attacking = true
+			animator.play("shot")
+			$fireball_shot.play()
+			
+			bullet = fireball_scene.instantiate()
+			bullet.attack = attack
+			bullet.explosion_radius = fireball_explosion_radius  #传入爆炸范围
+			bullet.damage_source = "fireball"
+			bullet.player = self
+			await get_tree().create_timer(0.2).timeout
+			
+			bullet.position = position + Vector2(10, 6)
+			get_tree().current_scene.add_child(bullet)
+			return
 	else:
 		return  # 保险：未知武器不发射
 
 
-
-
-func _reload_scene() -> void:
+func _reload_scene(anim_name: String) -> void:
 	get_tree().reload_current_scene()
 	
 func take_damage(amount: int):
-	animator.play("game_over")
 	if is_game_over:
 		return
 	hp -= amount
 	$hurt.play()
 	if hp <= 0:
 		hp = 0
+		animator.play("game_over")
 		game_over()
 	else:
 		flash_red()
@@ -159,9 +159,9 @@ func on_enemy_killed():
 
 func level_up():
 	var label = get_tree().current_scene.get_node("level up")
-	player_level += 1
+	player_level += 5
 	kill_count = 0
-	kills_to_level_up += 5
+	kills_to_level_up += 1
 
 	
 	label.position = position + Vector2(-50, -28)
@@ -194,3 +194,7 @@ func shake_camera():
 	tween.tween_property(camera, "offset", original_offset + Vector2(10, 0), 0.05)
 	tween.tween_property(camera, "offset", original_offset - Vector2(10, 0), 0.05)
 	tween.tween_property(camera, "offset", original_offset, 0.05)
+
+
+func _on_fiery_imp_animation_finished() -> void:
+	is_attacking = false

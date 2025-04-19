@@ -15,6 +15,8 @@ var shape: CircleShape2D
 var original_radius = 0.0  # 存储初始半径
 var is_exploding = false
 
+@export var player: Node
+
 func _process(delta):
 	if is_exploding:
 		return
@@ -78,6 +80,11 @@ func apply_aoe_damage():
 	for item in results:
 		var area = item.collider
 		if area.is_in_group("enemy") and area.has_method("take_damage"):
-			area.take_damage(attack)
+			var is_crit = randf() < player.crit_rate
+			var final_damage = attack * (2 if is_crit else 1)
+
+			area.take_damage(final_damage, player.knockback_strength)
+			area.show_damage_number(final_damage, is_crit)
+	
 
 		
