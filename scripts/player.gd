@@ -4,13 +4,17 @@ extends CharacterBody2D
 #升级界面
 @export var stat_panel: CanvasLayer
 var is_panel_open = false
+var level = 1
 var attribute_points = 5
 var attack = 1
-var hp = 200
+var hp = 5
 var crit_rate = 0
+var remaining = 1
 var fireball_explosion_radius = 20.0 #火球大小
 @export var knockback_strength: float = 5.0
 @onready var upgrade_ui = $"../UpgradeUI"
+
+
 
 var current_skin_index = 0  # 0 = Foxy, 1 = Fiery Imp
 @onready var skins = [$Foxy,$"Fiery Imp"]  # 注意名字大小写要对上
@@ -93,6 +97,7 @@ func game_over():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("switch_weapon"):
+		$switch.play()
 		switch_skin()
 		if current_weapon == "normal":
 			current_weapon = "fireball"
@@ -126,7 +131,7 @@ func _on_fire() -> void:
 			bullet.explosion_radius = fireball_explosion_radius  #传入爆炸范围
 			bullet.damage_source = "fireball"
 			bullet.player = self
-			await get_tree().create_timer(0.2).timeout
+			await get_tree().create_timer(0.4).timeout
 			
 			bullet.position = position + Vector2(10, 6)
 			get_tree().current_scene.add_child(bullet)
@@ -152,15 +157,17 @@ func take_damage(amount: int):
 		shake_camera()
 
 func on_enemy_killed():
-	kill_count += 1
-	print("干掉一个，还剩：", kills_to_level_up - kill_count , "个")
-	if kill_count >= kills_to_level_up:
+	remaining -= 1
+	print("干掉一个，还剩：", remaining, "个")
+	emit_signal("kills_remaining_changed", remaining)
+	if remaining == 0:
 		level_up()
 
 func level_up():
 	var label = get_tree().current_scene.get_node("level up")
-	player_level += 5
-	kill_count = 0
+	level += 1
+	player_level += 2
+	remaining = player_level
 	kills_to_level_up += 1
 
 	

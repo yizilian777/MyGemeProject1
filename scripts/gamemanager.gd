@@ -15,6 +15,14 @@ extends Node2D
 @export var frog_scene: PackedScene
 @export var frog_timer : Timer
 
+var enemy_scenes = []
+var unlocked_count = 1
+var spawn_timer = 0.0
+var unlock_timer = 0.0
+var spawn_interval = 3.0
+var unlock_interval = 40.0
+var spawn_count = 1
+
 @export var score : int = 0
 @export var score_label : Label
 @export var game_over_label: Label
@@ -25,10 +33,10 @@ var upgrades = [
 	{ "name": "攻击力+", "effect": func(): player.attack += 1 },
 	{ "name": "移动速度+", "effect": func(): player.move_speed += 5},
 	{ "name": "HP+", "effect": func(): player.hp += 2 },
-	{ "name": "攻击速度+", "effect": func(): player.shoot_timer.wait_time *= 0.8 },
+	{ "name": "攻击速度+", "effect": func(): player.shoot_timer.wait_time *= 0.7 },
 	{ "name": "暴击率+", "effect": func(): player.crit_rate += 0.1 },
-	{ "name": "爆炸范围+", "effect": func(): player.fireball_explosion_radius += 5 },
-	{ "name": "击退+", "effect": func(): player.knockback_strength += 5 },
+	{ "name": "爆炸范围+", "effect": func(): player.fireball_explosion_radius += 8 },
+	{ "name": "击退+", "effect": func(): player.knockback_strength += 3 },
 ]
 
 var selected_effects = []
@@ -37,6 +45,13 @@ var original_button_positions: Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	enemy_scenes = [
+	{ "scene": slime_scene, "weight": 100 },
+	{ "scene": dino_scene, "weight": 30 },
+	{ "scene": dog_scene, "weight": 20 },
+	{ "scene": skeleton_scene, "weight": 5 },
+	{ "scene": frog_scene, "weight": 1 },
+	]
 	hide_screen_mask()
 	await get_tree().process_frame
 	var buttons = [
@@ -47,56 +62,55 @@ func _ready() -> void:
 
 	for button in buttons:
 		original_button_positions.append(button.position)
-	#怪物生成开始时间
-	await get_tree().create_timer(5).timeout
-	dino_timer.start()
-	
-	await get_tree().create_timer(5).timeout
-	dog_timer.start()
-	
-	await get_tree().create_timer(5).timeout
-	skeleton_timer.start()
-	
-	await get_tree().create_timer(5).timeout
-	frog_timer.start()
 
 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:#每帧运行
+	update_status_panel()
 	#怪物生成间隔
+	
 	if get_tree().paused:#如果暂停则不运行
 		return
-	slime_timer.wait_time -= 0.1 * delta
-	slime_timer.wait_time = clamp(slime_timer.wait_time, 0.3, 3)
+	spawn_timer -= delta
+	if spawn_timer <= 0:
+		spawn_timer = spawn_interval
+		call_deferred("_spawn_multiple_enemies", spawn_count)
 
-	score_label.text = "Score: " + str(score)
+	unlock_timer += delta
+	if unlock_timer >= unlock_interval:
+		unlock_timer = 0.0
+		if unlocked_count < enemy_scenes.size():
+			unlocked_count += 1
+		spawn_count += 5
+		spawn_interval = max(0.1, spawn_interval * 0.95)
+
 
 
 #生成怪物
-func _spawn_enemy(enemy_scene: PackedScene) -> void:
+func spawn_enemy():
 	if get_tree().paused:
-		return
-	var enemy = enemy_scene.instantiate()
-	enemy.position = Vector2(260, randf_range(45, 135))
+		return  # 暂停时不生成怪物
+	var pool: Array = []
+
+	# 用当前解锁数量限制敌人
+	for i in range(unlocked_count):
+		var item = enemy_scenes[i]
+		for j in range(item["weight"]):
+			pool.append(item["scene"])
+			
+	var scene = pool[randi() % pool.size()]
+	var enemy = scene.instantiate()
+	enemy.position = Vector2(260, randf_range(45, 130))
 	enemy.player = player
 	add_child(enemy)
 
-func _spawn_slime() -> void:
-	_spawn_enemy(slime_scene)
-
-func _spawn_dino() -> void:
-	_spawn_enemy(dino_scene)
-	
-func _spawn_dog() -> void:
-	_spawn_enemy(dog_scene)
-	
-func _spawn_skeleton() -> void:
-	_spawn_enemy(skeleton_scene)
-
-func _spawn_frog() -> void:
-	_spawn_enemy(frog_scene)
+func _spawn_multiple_enemies(count: int) -> void:
+	for i in range(count):
+		var delay = randf_range(0.0, 1.0)
+		await get_tree().create_timer(delay).timeout
+		spawn_enemy()
 	
 func show_game_over():
 	game_over_label.visible = true
@@ -142,7 +156,7 @@ func show_level_up():
 		tween.tween_property(button, "scale", Vector2(0.70, 0.70), 2)
 		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		
-		# 🔽 添加上下浮动的 tween（循环）
+		# 添加上下浮动的 tween（循环）
 		var delay = randf_range(0.0, 0.5)
 		var offset = randf_range(4.0, 8.0)  # 上下移动范围
 		var speed = randf_range(0.1, 0.3)   # 移动速度
@@ -188,4 +202,14 @@ func shrink_black_mask_to_circle():
 
 func hide_screen_mask():
 	$CanvasLayer/ScreenMask.hide()
-		
+	
+func update_status_panel():
+	$CanvasLayer/Panel/level.text = "Level  :  " + str(player.level)
+	$"CanvasLayer/Panel/level to up".text = "升级还需 : " + str(player.remaining)
+	$CanvasLayer/Panel/AttackLabel.text = "攻击力:  " + str(player.attack)
+	$CanvasLayer/Panel/Label2.text = "生命值:  " + str(player.hp)
+	$CanvasLayer/Panel/Label3.text = "暴击率:  " + str(round(player.crit_rate * 100)) + "%"
+	$CanvasLayer/Panel/Label4.text = "攻击间隔:  " + str(player.shoot_timer.wait_time) + "s"
+	$CanvasLayer/Panel/Label5.text = "移动速度:  " + str(player.move_speed)
+	$CanvasLayer/Panel/Label6.text = "爆炸范围:  " + str(player.fireball_explosion_radius)
+	$CanvasLayer/Panel/Label7.text = "击退:  " + str(player.knockback_strength)

@@ -40,8 +40,6 @@ func _on_area_entered(area: Area2D) -> void:
 		$hurt.play()
 		flash_red()
 		knockback(area.knockback_strength)  # 击退
-		if health <= 0:
-			die()
 
 #爆炸伤害
 func take_damage(amount: int, knockback_strength: float, source: String = ""):
@@ -72,7 +70,7 @@ func show_damage_number(damage: int, is_crit: bool):
 	var damage_label_scene = preload("res://scenes/damage_label.tscn")
 	var label = damage_label_scene.instantiate()
 	label.global_position = global_position + Vector2(0, -20)  # 敌人上方
-	get_tree().current_scene.add_child(label)  # 或 get_parent()，放到合适层级
+	get_tree().current_scene.add_child(label)
 	label.start(str(damage), is_crit)
 
 #死亡
