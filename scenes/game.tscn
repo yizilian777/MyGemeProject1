@@ -324,10 +324,10 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_kvuet")
 
 [node name="AttackLabel" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 0
-offset_left = 1.34092
-offset_top = 4.80758
-offset_right = 63.3409
-offset_bottom = 27.8076
+offset_left = 0.957803
+offset_top = 4.51621
+offset_right = 63.9578
+offset_bottom = 31.5162
 scale = Vector2(0.187989, 0.163682)
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("5_iywne")
@@ -336,9 +336,9 @@ text = "攻击力: 1"
 [node name="Label2" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 0
 offset_left = 0.957803
-offset_top = 1.16547
+offset_top = 0.874106
 offset_right = 84.9578
-offset_bottom = 24.1655
+offset_bottom = 23.8741
 scale = Vector2(0.185182, 0.165259)
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("5_iywne")
@@ -391,9 +391,9 @@ text = "12"
 [node name="Label7" type="Label" parent="CanvasLayer/Panel"]
 layout_mode = 0
 offset_left = 0.957803
-offset_top = 24.912
-offset_right = 40.9578
-offset_bottom = 47.912
+offset_top = 26.0775
+offset_right = 41.9578
+offset_bottom = 48.0775
 scale = Vector2(0.215508, 0.140046)
 theme_override_constants/outline_size = 8
 theme_override_fonts/font = ExtResource("5_iywne")
@@ -422,6 +422,17 @@ theme_override_fonts/font = ExtResource("5_iywne")
 theme_override_font_sizes/font_size = 24
 text = "升级还需:  0"
 
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 242.0
+offset_top = 7.0
+offset_right = 380.0
+offset_bottom = 58.0
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("5_iywne")
+theme_override_font_sizes/font_size = 24
+text = "move : W A S D
+switch : Q"
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("8_gee14")
@@ -437,7 +448,7 @@ stream = ExtResource("13_kvuet")
 [connection signal="timeout" from="monster timer/dino" to="." method="_spawn_dino"]
 [connection signal="timeout" from="monster timer/dog" to="." method="_on_dog_timeout"]
 [connection signal="timeout" from="monster timer/dog" to="." method="_spawn_dog"]
-[connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_skeleton"]
-[connection signal="timeout" from="monster timer/frog" to="." method="_spawn_frog"]
+[connection signal="timeout" from="monster timer/skeleton" to="." method="_spawn_slime"]
 [connection signal="timeout" from="monster timer/frog" to="." method="_spawn_slime"]
+[connection signal="timeout" from="monster timer/frog" to="." method="_spawn_frog"]

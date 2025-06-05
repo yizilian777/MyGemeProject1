@@ -30,13 +30,13 @@ var spawn_count = 1
 @export var level_up_label : Label
 
 var upgrades = [
-	{ "name": "攻击力+", "effect": func(): player.attack += 1 },
-	{ "name": "移动速度+", "effect": func(): player.move_speed += 5},
+	{ "name": "攻撃力+", "effect": func(): player.attack += 1 },
+	{ "name": "移動速度+", "effect": func(): player.move_speed += 5},
 	{ "name": "HP+", "effect": func(): player.hp += 2 },
-	{ "name": "攻击速度+", "effect": func(): player.shoot_timer.wait_time *= 0.7 },
-	{ "name": "暴击率+", "effect": func(): player.crit_rate += 0.1 },
-	{ "name": "爆炸范围+", "effect": func(): player.fireball_explosion_radius += 8 },
-	{ "name": "击退+", "effect": func(): player.knockback_strength += 3 },
+	{ "name": "攻撃速度+", "effect": func(): player.shoot_timer.wait_time *= 0.7 },
+	{ "name": "会心率+", "effect": func(): player.crit_rate += 0.1 },
+	{ "name": "爆発範囲+", "effect": func(): player.fireball_explosion_radius += 8 },
+	{ "name": "ノックバック+", "effect": func(): player.knockback_strength += 3 },
 ]
 
 var selected_effects = []
@@ -205,11 +205,11 @@ func hide_screen_mask():
 	
 func update_status_panel():
 	$CanvasLayer/Panel/level.text = "Level  :  " + str(player.level)
-	$"CanvasLayer/Panel/level to up".text = "升级还需 : " + str(player.remaining)
-	$CanvasLayer/Panel/AttackLabel.text = "攻击力:  " + str(player.attack)
-	$CanvasLayer/Panel/Label2.text = "生命值:  " + str(player.hp)
-	$CanvasLayer/Panel/Label3.text = "暴击率:  " + str(round(player.crit_rate * 100)) + "%"
-	$CanvasLayer/Panel/Label4.text = "攻击间隔:  " + str(player.shoot_timer.wait_time) + "s"
-	$CanvasLayer/Panel/Label5.text = "移动速度:  " + str(player.move_speed)
-	$CanvasLayer/Panel/Label6.text = "爆炸范围:  " + str(player.fireball_explosion_radius)
-	$CanvasLayer/Panel/Label7.text = "击退:  " + str(player.knockback_strength)
+	$"CanvasLayer/Panel/level to up".text = "レベルアップまで : " + str(player.remaining)
+	$CanvasLayer/Panel/AttackLabel.text = "攻撃力:  " + str(player.attack)
+	$CanvasLayer/Panel/Label2.text = "HP:  " + str(player.hp)
+	$CanvasLayer/Panel/Label3.text = "会心率:  " + str(round(player.crit_rate * 100)) + "%"
+	$CanvasLayer/Panel/Label4.text = "攻撃間隔:  " + str(player.shoot_timer.wait_time) + "s"
+	$CanvasLayer/Panel/Label5.text = "移動速度:  " + str(player.move_speed)
+	$CanvasLayer/Panel/Label6.text = "爆発範囲:  " + str(player.fireball_explosion_radius)
+	$CanvasLayer/Panel/Label7.text = "ノックバック:  " + str(player.knockback_strength)

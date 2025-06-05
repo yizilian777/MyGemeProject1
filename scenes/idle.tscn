@@ -177,8 +177,9 @@ radius = 52.0096
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3.44286, 3.14098)
 sprite_frames = SubResource("SpriteFrames_blv54")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.980098
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(59, 47)

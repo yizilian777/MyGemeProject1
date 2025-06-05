@@ -71,7 +71,7 @@ func apply_aoe_damage():
 	query.shape = circle_shape
 	query.transform = Transform2D(0, position)  # 以当前火球位置为中心
 	query.collide_with_areas = true
-	query.collision_mask = collision_mask  # 换成你敌人的层编号
+	query.collision_mask = collision_mask
 
 	var results = space.intersect_shape(query)
 	
